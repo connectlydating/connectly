@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Connectly V2</title><link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><a class="logo" href="#" onclick="show('discover')">Connectly</a><nav id="nav" class="hidden"><button onclick="show('discover')">Discover</button><button onclick="show('matches')">Matches <b id="matchCount">0</b></button><button onclick="show('messages')">Messages</button><button onclick="show('profile')">Profile</button><button onclick="logout()">Log out</button></nav></header>
+
+<main>
+<section id="auth" class="view">
+<div class="auth-card"><div class="heart">♥</div><h1>Meet. Match. Connect.</h1><p>Create an account and meet people who share your interests.</p>
+<div class="tabs"><button id="loginTab" class="active" onclick="authMode('login')">Log in</button><button id="signupTab" onclick="authMode('signup')">Create account</button></div>
+<form id="authForm" onsubmit="submitAuth(event)"><label>Email<input id="email" type="email" required></label><label>Password<input id="password" type="password" minlength="6" required></label><div id="signupFields" class="hidden"><label>Name<input id="name"></label><label>Age<input id="age" type="number" min="18" max="100"></label><label>City<input id="city"></label><label>About<textarea id="bio"></textarea><small>Only adults 18+ may use this service.</small></label></div><button class="primary" type="submit" id="authBtn">Log in</button></form><p id="authMsg" class="msg"></p></div>
+</section>
+
+<section id="discover" class="view hidden"><div class="head"><div><small>DISCOVER</small><h2>People you may like</h2></div><select id="filter" onchange="loadProfiles()"><option value="all">All interests</option><option>travel</option><option>business</option><option>music</option><option>fitness</option><option>books</option><option>food</option></select></div><div id="profiles" class="grid"></div></section>
+
+<section id="matches" class="view hidden"><div class="head"><div><small>MUTUAL INTEREST</small><h2>Your matches</h2></div></div><div id="matchesList" class="grid"></div></section>
+
+<section id="messages" class="view hidden"><div class="head"><div><small>PRIVATE CHAT</small><h2>Messages</h2></div></div><div class="chat"><aside id="chatUsers"></aside><article><div id="chatTitle" class="chat-title">Choose a match</div><div id="chatLog" class="chat-log"></div><form onsubmit="sendMessage(event)" class="send"><input id="message" placeholder="Write a message..." autocomplete="off"><button class="primary">Send</button></form></article></div></section>
+
+<section id="profile" class="view hidden"><div class="head"><div><small>YOUR ACCOUNT</small><h2>My profile</h2></div></div><form class="card form" onsubmit="saveProfile(event)"><label>Name<input id="pname" required></label><label>Age<input id="page" type="number" min="18" required></label><label>City<input id="pcity"></label><label>About<textarea id="pbio"></textarea></label><label>Interests<input id="pinterests" placeholder="travel, music, books"></label><button class="primary">Save profile</button></form><div class="safety"><b>Safety</b><p>Never share passwords, financial information or sensitive documents. Use Block or Report if someone behaves improperly.</p></div></section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script src="app.js"></script>
+</body></html>
