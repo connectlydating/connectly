@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+<rect width="600" height="600" rx="90" fill="#fff0f4"/>
+<circle cx="300" cy="235" r="105" fill="#e53d70" opacity=".9"/>
+<path d="M120 510c28-112 105-166 180-166s152 54 180 166" fill="#e53d70" opacity=".9"/>
+<text x="300" y="570" text-anchor="middle" font-family="Arial,sans-serif" font-size="30" font-weight="700" fill="#bc2755">Connectly</text>
+</svg>

@@ -1,27 +1,166 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="google-site-verification" content="5E9ws_u4ouQLSAVSMiiKEuQj5Cj711Qpca4EUMTxZiI" />
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Connectly V2</title><link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Connectly, an adults-only dating and chat platform. Discover, match, chat and share profile photos.">
+  <meta name="theme-color" content="#e53d70">
+  <title>Connectly | Meet, Match & Chat</title>
+  <link rel="icon" href="avatar-placeholder.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header><a class="logo" href="#" onclick="show('discover')">Connectly</a><nav id="nav" class="hidden"><button onclick="show('discover')">Discover</button><button onclick="show('matches')">Matches <b id="matchCount">0</b></button><button onclick="show('messages')">Messages</button><button onclick="show('profile')">Profile</button><button onclick="logout()">Log out</button></nav></header>
+<header class="site-header">
+  <a class="logo" href="#discover" data-view="discover">Connectly</a>
+  <nav id="nav" class="nav hidden" aria-label="Main navigation">
+    <button data-view="discover">Discover</button>
+    <button data-view="matches">Matches <b id="matchCount">0</b></button>
+    <button data-view="messages">Messages</button>
+    <button data-view="profile">My profile</button>
+    <a href="policy.html">Safety & Policy</a>
+    <button id="logoutBtn" class="logout">Log out</button>
+  </nav>
+</header>
 
 <main>
 <section id="auth" class="view">
-<div class="auth-card"><div class="heart">♥</div><h1>Meet. Match. Connect.</h1><p>Create an account and meet people who share your interests.</p>
-<div class="tabs"><button id="loginTab" class="active" onclick="authMode('login')">Log in</button><button id="signupTab" onclick="authMode('signup')">Create account</button></div>
-<form id="authForm" onsubmit="submitAuth(event)"><label>Email<input id="email" type="email" required></label><label>Password<input id="password" type="password" minlength="6" required></label><div id="signupFields" class="hidden"><label>Name<input id="name"></label><label>Age<input id="age" type="number" min="18" max="100"></label><label>City<input id="city"></label><label>About<textarea id="bio"></textarea><small>Only adults 18+ may use this service.</small></label></div><button class="primary" type="submit" id="authBtn">Log in</button></form><p id="authMsg" class="msg"></p></div>
+  <div class="auth-shell">
+    <div class="auth-card">
+      <div class="brand-mark">♥</div>
+      <p class="eyebrow">CONNECTLY</p>
+      <h1>Meet people. Build connections.</h1>
+      <p class="lead">Discover adults, match, chat in real time and share the parts of your life you choose.</p>
+      <div class="tabs">
+        <button id="loginTab" class="active" type="button">Log in</button>
+        <button id="signupTab" type="button">Create account</button>
+      </div>
+      <form id="authForm">
+        <label>Email<input id="email" type="email" autocomplete="email" required></label>
+        <label>Password<input id="password" type="password" minlength="6" autocomplete="current-password" required></label>
+        <div id="signupFields" class="hidden">
+          <div class="two-col">
+            <label>Name<input id="name" maxlength="80" autocomplete="name"></label>
+            <label>Age<input id="age" type="number" min="18" max="100"></label>
+          </div>
+          <div class="two-col">
+            <label>Gender
+              <select id="gender">
+                <option value="">Prefer not to say</option>
+                <option>Man</option><option>Woman</option><option>Non-binary</option><option>Other</option>
+              </select>
+            </label>
+            <label>City<input id="city" maxlength="80" autocomplete="address-level2"></label>
+          </div>
+          <label>Looking for
+            <select id="lookingFor">
+              <option value="everyone">Everyone</option>
+              <option value="men">Men</option>
+              <option value="women">Women</option>
+              <option value="non_binary">Non-binary people</option>
+            </select>
+          </label>
+          <label>About you<textarea id="bio" rows="4" maxlength="700" placeholder="Tell people a little about yourself..."></textarea></label>
+          <label class="check"><input id="ageConfirm" type="checkbox"> I confirm I am 18+ and will follow the Community Rules.</label>
+        </div>
+        <button class="primary full" id="authBtn" type="submit">Log in</button>
+        <button class="text-button" id="forgotBtn" type="button">Forgot password?</button>
+        <p id="authMsg" class="msg" aria-live="polite"></p>
+      </form>
+      <p class="legal-note">By using Connectly, you agree to our <a href="policy.html">Terms, Privacy & Safety Policy</a>.</p>
+    </div>
+    <div class="auth-points">
+      <div><strong>18+</strong><span>Adults only</span></div>
+      <div><strong>♥</strong><span>Mutual matching</span></div>
+      <div><strong>↗</strong><span>Private real-time chat</span></div>
+    </div>
+  </div>
 </section>
 
-<section id="discover" class="view hidden"><div class="head"><div><small>DISCOVER</small><h2>People you may like</h2></div><select id="filter" onchange="loadProfiles()"><option value="all">All interests</option><option>travel</option><option>business</option><option>music</option><option>fitness</option><option>books</option><option>food</option></select></div><div id="profiles" class="grid"></div></section>
+<section id="discover" class="view hidden">
+  <div class="hero-head">
+    <div><p class="eyebrow">DISCOVER</p><h2>Find your people</h2><p class="subhead">Browse profiles, open their full profile, then Like or Pass.</p></div>
+    <button id="refreshDiscover" class="secondary">Refresh</button>
+  </div>
+  <div class="filter-bar card">
+    <input id="searchInput" placeholder="Search name, city or bio..." aria-label="Search">
+    <select id="interestFilter"><option value="all">All interests</option><option>travel</option><option>business</option><option>music</option><option>fitness</option><option>books</option><option>food</option><option>movies</option><option>photography</option></select>
+    <select id="genderFilter"><option value="all">Any gender</option><option>Man</option><option>Woman</option><option>Non-binary</option><option>Other</option></select>
+    <button id="clearFilters" class="secondary">Clear</button>
+  </div>
+  <div id="profiles" class="grid"></div>
+</section>
 
-<section id="matches" class="view hidden"><div class="head"><div><small>MUTUAL INTEREST</small><h2>Your matches</h2></div></div><div id="matchesList" class="grid"></div></section>
+<section id="matches" class="view hidden">
+  <div class="hero-head"><div><p class="eyebrow">MATCHES</p><h2>Mutual connections</h2><p class="subhead">A match happens when both people Like each other.</p></div></div>
+  <div id="matchesList" class="grid"></div>
+</section>
 
-<section id="messages" class="view hidden"><div class="head"><div><small>PRIVATE CHAT</small><h2>Messages</h2></div></div><div class="chat"><aside id="chatUsers"></aside><article><div id="chatTitle" class="chat-title">Choose a match</div><div id="chatLog" class="chat-log"></div><form onsubmit="sendMessage(event)" class="send"><input id="message" placeholder="Write a message..." autocomplete="off"><button class="primary">Send</button></form></article></div></section>
+<section id="messages" class="view hidden">
+  <div class="hero-head"><div><p class="eyebrow">PRIVATE CHAT</p><h2>Messages</h2><p class="subhead">Only matched users can message each other.</p></div></div>
+  <div class="chat">
+    <aside id="chatUsers" class="chat-users"></aside>
+    <article class="chat-panel">
+      <div id="chatTitle" class="chat-title">Choose a match</div>
+      <div id="chatLog" class="chat-log"><div class="empty">Choose a match to start chatting.</div></div>
+      <form id="messageForm" class="send">
+        <input id="message" maxlength="4000" placeholder="Write a message..." autocomplete="off">
+        <button class="primary" type="submit">Send</button>
+      </form>
+    </article>
+  </div>
+</section>
 
-<section id="profile" class="view hidden"><div class="head"><div><small>YOUR ACCOUNT</small><h2>My profile</h2></div></div><form class="card form" onsubmit="saveProfile(event)"><label>Name<input id="pname" required></label><label>Age<input id="page" type="number" min="18" required></label><label>City<input id="pcity"></label><label>About<textarea id="pbio"></textarea></label><label>Interests<input id="pinterests" placeholder="travel, music, books"></label><button class="primary">Save profile</button></form><div class="safety"><b>Safety</b><p>Never share passwords, financial information or sensitive documents. Use Block or Report if someone behaves improperly.</p></div></section>
+<section id="profile" class="view hidden">
+  <div class="hero-head"><div><p class="eyebrow">YOUR PROFILE</p><h2>Make your profile yours</h2><p class="subhead">A placeholder is shown until you upload a photo. No real photo is added automatically.</p></div></div>
+  <div class="profile-layout">
+    <form id="profileForm" class="card form-card">
+      <div class="profile-photo-row">
+        <img id="profilePreview" src="avatar-placeholder.svg" class="profile-preview" alt="Profile photo">
+        <div>
+          <label for="photoFile" class="upload-button">Upload profile photo</label>
+          <input id="photoFile" class="sr-only" type="file" accept="image/jpeg,image/png,image/webp">
+          <p class="hint">JPG, PNG or WEBP, up to 5 MB.</p>
+          <p id="photoMsg" class="msg"></p>
+        </div>
+      </div>
+      <div class="field-grid">
+        <label>Name<input id="pname" maxlength="80" required></label>
+        <label>Age<input id="page" type="number" min="18" max="100" required></label>
+        <label>Gender<select id="pgender"><option value="">Prefer not to say</option><option>Man</option><option>Woman</option><option>Non-binary</option><option>Other</option></select></label>
+        <label>City<input id="pcity" maxlength="80"></label>
+      </div>
+      <label>Looking for<select id="plookingFor"><option value="everyone">Everyone</option><option value="men">Men</option><option value="women">Women</option><option value="non_binary">Non-binary people</option></select></label>
+      <label>Age range you prefer
+        <div class="two-col"><input id="pminAge" type="number" min="18" max="100" placeholder="Min 18"><input id="pmaxAge" type="number" min="18" max="100" placeholder="Max 100"></div>
+      </label>
+      <label>About<textarea id="pbio" rows="5" maxlength="700"></textarea></label>
+      <label>Interests<input id="pinterests" maxlength="250" placeholder="travel, music, books"></label>
+      <label>Status line<input id="pstatus" maxlength="120" placeholder="What are you up to?"></label>
+      <button class="primary" type="submit">Save profile</button>
+      <p id="profileMsg" class="msg"></p>
+    </form>
+
+    <aside class="side-stack">
+      <div class="card gallery-card">
+        <div class="section-title"><h3>My photos</h3><span id="photoCount">0/8</span></div>
+        <label class="upload-button wide">Add photos<input id="galleryFiles" class="sr-only" type="file" accept="image/jpeg,image/png,image/webp" multiple></label>
+        <div id="myGallery" class="gallery-grid"></div>
+      </div>
+      <div class="card safety-card"><h3>Stay safe</h3><p>Never share passwords, financial information or sensitive documents. Meet in public and use Report or Block if something feels wrong.</p><a href="policy.html">Read Safety & Policy</a></div>
+    </aside>
+  </div>
+</section>
+
+<section id="publicProfile" class="view hidden">
+  <div id="publicProfileBox"></div>
+</section>
 </main>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script src="app.js"></script>
-</body></html>
+
+<footer class="site-footer"><span>Connectly · Adults 18+</span><a href="policy.html">Terms, Privacy & Safety</a></footer>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
