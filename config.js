@@ -1,6 +1,4 @@
-// 1. Create a free Supabase project.
-// 2. In Supabase: Project Settings -> API.
-// 3. Copy your Project URL and anon public key below.
-// 4. NEVER put a service_role/secret key in this file.
-const SUPABASE_URL = "https://wnyefqhnchdwvwyarjez.supabase.co";
+// Copy your existing working config.js into this project.
+// Browser-safe values only. Never use sb_secret_ or service_role here.
+const SUPABASE_URL = "https://wnyefqhnchdwwwyarjez.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_iS6f80UH-BdZb61hVEvc_w_1NZAF-iX";
