@@ -1,4 +1,4 @@
-# Connectly V2
+# Connectly
 
 Real backend-ready dating MVP using Supabase.
 
